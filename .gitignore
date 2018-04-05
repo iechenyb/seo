@@ -28,3 +28,4 @@ nbdist/
 /target
 /data
 /elasticsearch
+/target/
