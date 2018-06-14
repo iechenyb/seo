@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName="projectname",type="article",indexStoreType="fs",shards=5,replicas=1,refreshInterval="-1")
+@Document(indexName="article",type="article",indexStoreType="fs",shards=5,replicas=1,refreshInterval="-1")
 public class Article implements Serializable {
     /**
 	 * 

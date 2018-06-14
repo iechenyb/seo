@@ -1,0 +1,69 @@
+现定义词语  上海合作组织
+输入上海   则查询包含上海的句子   
+输入上海合作组织，则查询包含上海合作组织的句子。
+
+国家发改委 是一个默认的词语   不会被拆分成  国家  和发改委。
+
+重要问题：如何实现es上直接查看分词结果。
+http://localhost:9200/_plugin/head/ 查看索引信息
+=======默认的分词检查
+http://localhost:9200/es-study/_analyze
+=======ik_smart分词
+最大化分词
+post http://localhost:9200/es-study/_analyze?analyzer=ik_max_word&pretty=true
+简洁分词
+post http://localhost:9200/es-study/_analyze?analyzer=ik_smart&pretty=true
+标准分词
+post http://localhost:9200/es-study/_analyze?analyzer=standard&pretty=true
+ 自定义词 上海合作组织
+{
+"text":"上海合作组织"
+}
+{
+"text":"上海合作组织"
+"analyzer":"ik_max_word"
+}
+{
+"text":"上海合作组织"
+"analyzer":"ik_smart"
+}
+ik_smart 拆词结果：上海合作组织
+ik_max_word 拆词结果：上海合作组织 上海 合作 组织
+ik_smart 定义停止词
+{
+"text":"我爱我的祖国"
+}
+ik_smart拆词结果 ：爱我 祖国
+ik_max_word拆词结果：我  爱我 祖国 祖  国
+ik_max_word定义停止词后： 爱我 祖国 祖 国
+类似kibana开发工具使用postman进行
+GET http://localhost:9200/es-study/_search 查询所有的记录
+post body 
+{"query":{"match":{"title":"上海"}}}
+{"query":{"match":{"content":"国家发改委"}}}
+{"query":{"match":{"title":"上海","content":"日本"}}}
+
+
+
+http://localhost:9200/_cat/health?v 查看集群是否健康
+绿色表示一切正常, 黄色表示所有的数据可用但是部分副本还没有分配,红色表示部分数据因为某些原因不可用.
+http://localhost:9200/_cat/nodes?v
+获取集群节点列表
+http://localhost:9200/_cat/indices?v
+获取集群的所有索引
+put http://localhost:9200/es-study/external/1?pretty
+{
+    "id": 102,
+    "title": "es插入内容",
+    "content": "新华社青岛6月11日电 题：携手前进，开启上合发展新征程",
+    "time": "20180613153532"
+  }
+https://www.cnblogs.com/pilihaotian/p/5830754.html
+
+//查询所有
+GET _search
+{
+  "query": {
+    "match_all": {}
+  }
+}

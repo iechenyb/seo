@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ElasticSearchApplication;
-import com.cyb.es.bean.News;
 import com.cyb.es.dao.ArticleSearchRepository;
 import com.cyb.es.dao.NewsSearchRepository;
 import com.cyb.es.dao.NewsSearchRepositoryES;
@@ -28,15 +27,16 @@ public class ElasticSearchTest {
 
 	@Test
 	public void testSaveArticleIndex() {
+		//作者
 		Author author = new Author();
 		author.setId(1L);
 		author.setName("tianshouzhi");
 		author.setRemark("java developer");
-
+		//导师
 		Tutorial tutorial = new Tutorial();
 		tutorial.setId(1L);
 		tutorial.setName("elastic search");
-
+		//论文
 		Article article = new Article();
 		article.setId(1L);
 		article.setTitle("springboot integreate elasticsearch");
@@ -67,22 +67,7 @@ public class ElasticSearchTest {
 
 	@Autowired
 	NewsSearchRepositoryES nsr;
-    /**
-     * 将db中的数据读出进行索引存储
-     */
-	@Test
-	public void testInitNewsFromMysql() {
-		Iterator<News> iterator = re.findAll().iterator();
-		while (iterator.hasNext()) {
-			com.cyb.es.document.News news = new com.cyb.es.document.News();
-			News n = iterator.next();
-			news.setId(n.getId());
-			news.setContent(n.getContent());
-			news.setTitle(n.getTitle());
-			nsr.save(news);
-		}
-		testSearchNews();
-	}
+   
 	/**
 	 * 根据索引查询内容
 	 */
@@ -91,8 +76,8 @@ public class ElasticSearchTest {
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
 		String queryString = "2";// 搜索关键字
 		QueryStringQueryBuilder builder = new QueryStringQueryBuilder(queryString);
-		Iterable<com.cyb.es.document.News> searchResult = nsr.search(builder);
-		Iterator<com.cyb.es.document.News> iterator = searchResult.iterator();
+		Iterable<com.cyb.es.document.ESNews> searchResult = nsr.search(builder);
+		Iterator<com.cyb.es.document.ESNews> iterator = searchResult.iterator();
 		while (iterator.hasNext()) {
 			System.out.println(iterator.next());
 		}

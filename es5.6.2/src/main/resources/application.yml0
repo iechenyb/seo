@@ -1,0 +1,9 @@
+spring:
+   data:
+        elasticsearch:
+            cluster-name: elasticsearch
+            cluster-nodes: localhost:9300
+            properties:
+                path:
+                  logs: ./elasticsearch/log
+                  data: ./elasticsearch/data

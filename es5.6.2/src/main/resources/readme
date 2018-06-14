@@ -1,0 +1,16 @@
+启动es，http访问端口9002 tcp访问端口9003
+http://localhost:9200/article 查看document索引
+
+
+数据准备  
+创建xml 将论文或者新闻进行内容编辑，执行测试用例进行初始化。
+将数据从数据库读入到es中，进行全文检索。
+https://github.com/medcl/elasticsearch-analysis-ik/blob/master/pom.xml
+
+https://www.cnblogs.com/xing901022/p/5910139.html
+es-ik安装详解
+https://www.cnblogs.com/zlslch/p/6440373.html
+curl 地址 https://curl.haxx.se/download/
+http://blog.51cto.com/9410445/1763891
+
+https://www.cnblogs.com/zlslch/p/6440373.html ******
