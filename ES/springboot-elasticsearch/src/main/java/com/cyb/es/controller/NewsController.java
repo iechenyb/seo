@@ -10,14 +10,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.index.query.WildcardQueryBuilder;
 import org.elasticsearch.index.query.WrapperQueryBuilder;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +43,8 @@ import com.cyb.es.dao.NewsSearchRepository;
 import com.cyb.es.dao.NewsSearchRepositoryES;
 import com.cyb.es.document.ESNews;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * http://localhost:9200/_cluster/health/?level=shards http://localhost:9200/
  * 
@@ -47,6 +57,7 @@ public class NewsController {
 
 	@Autowired
 	NewsSearchRepositoryES es;
+	
 	@Autowired
 	ElasticsearchTemplate template;
 
@@ -169,6 +180,7 @@ public class NewsController {
 	 * @return
 	 */
 	@GetMapping("query")
+	@ApiOperation(value="全文匹配，查询所有创建索引的字段",notes="全文匹配，查询所有创建索引的字段")
 	public List<ESNews> queryNews(String key) {
 		List<ESNews> data = new ArrayList<ESNews>();
 		String queryString = key;// 搜索关键字
@@ -248,4 +260,48 @@ public class NewsController {
 		*/
 		return es.findOne(id);
 	}
+	
+	int PAGE_SIZE = 3; //默认分页大小  
+    
+    int PAGE_NUMBER = 0; //默认当前分页  
+      
+    String SCORE_MODE_SUM = "sum"; //权重分求和模式  
+      
+    Float MIN_SCORE = 10.0F; //由于无相关性的分值默认为1， 设置权重分最小值为10 
+    
+    /** 
+     * 在ES中搜索内容 
+     */  
+    @GetMapping("functionScoreQuery")
+    public List<ESNews> searchEntity(int pageNumber, int pageSize, String searchContent){  
+        if(pageSize==0) {  
+            pageSize = PAGE_SIZE;  
+        }  
+        if(pageNumber<0) {  
+            pageNumber = PAGE_NUMBER;  
+        }  
+          
+        SearchQuery searchQuery = getEntitySearchQuery(pageNumber,pageSize,searchContent);  
+        Page<ESNews> cityPage = es.search(searchQuery);  
+        return cityPage.getContent();  
+    }  
+      
+    /** 
+     * 组装搜索Query对象 
+     * @param pageNumber 
+     * @param pageSize 
+     * @param searchContent 
+     * @return 
+     */  
+    private SearchQuery getEntitySearchQuery(int pageNumber, int pageSize, String searchContent) {  
+        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery()  
+                .add(QueryBuilders.matchPhraseQuery("name", searchContent),  
+                        ScoreFunctionBuilders.weightFactorFunction(1000))  
+                //.add(QueryBuilders.matchPhraseQuery("other", searchContent),  
+                        //ScoreFunctionBuilders.weightFactorFunction(1000))  
+                .scoreMode(SCORE_MODE_SUM).setMinScore(MIN_SCORE);  
+        //设置分页，否则只能按照ES默认的分页给  
+        Pageable pageable = new PageRequest(pageNumber, pageSize);  
+        return new NativeSearchQueryBuilder().withPageable(pageable).withQuery(functionScoreQueryBuilder).build();  
+    }
 }

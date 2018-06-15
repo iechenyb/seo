@@ -13,19 +13,16 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Document(indexName = ESNews.INDEX, type = ESNews.ORDER_TYPE, indexStoreType = "fs", shards = 5, replicas = 1, refreshInterval = "-1")
+@Document(indexName = PublicIndex.INDEX, type = PublicIndex.NEWS_TYPE, indexStoreType = "fs", shards = 5, replicas = 1, refreshInterval = "-1")
 public class ESNews {
-	public static final String INDEX = "es-study";
-	public static final String ORDER_TYPE = "news-type";
-	public static final String DETAIL_TYPE = "news-content-document";
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Field(type = FieldType.text, analyzer = "ik_max_word"
-			/*index = FieldIndex.not_analyzed, 
-			searchAnalyzer = "ik_smart"*/)
+	@Field(type = FieldType.text, analyzer = "ik_smart",
+			/*index = FieldIndex.not_analyzed, */
+			searchAnalyzer = "ik_smart")
 	private String title;
 	
 	//analysis-ik
@@ -47,7 +44,7 @@ public class ESNews {
 	 */
 
 	
-	  @Field( type = FieldType.Date, 
+	  @Field( type = FieldType.text, 
 			  format = DateFormat.custom,pattern =
 	  "yyyyMMddHHmmss" )//20180613083253
 	  @JsonFormat (shape = JsonFormat.Shape.STRING, pattern =

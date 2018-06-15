@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ElasticSearchApplication;
-import com.cyb.es.dao.ArticleSearchRepository;
+import com.cyb.es.dao.WebSearchRepositoryES;
 import com.cyb.es.dao.NewsSearchRepository;
 import com.cyb.es.dao.NewsSearchRepositoryES;
 import com.cyb.es.document.Article;
@@ -23,7 +23,7 @@ import com.cyb.es.document.Tutorial;
 public class ElasticSearchTest {
 
 	@Autowired
-	private ArticleSearchRepository articleSearchRepository;
+	private WebSearchRepositoryES articleSearchRepository;
 
 	@Test
 	public void testSaveArticleIndex() {

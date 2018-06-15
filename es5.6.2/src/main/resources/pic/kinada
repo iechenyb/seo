@@ -1,0 +1,54 @@
+POST _search
+{"query":{"match":{"title":"大数据"}}}
+POST _search
+{
+  "query": {
+    "match": {
+        "title" : {
+            "query" : "有日本的新闻么"
+        }
+    }
+  }
+}
+POST es-study/_search
+{
+  "query": {
+    "match_phrase": {
+        "title" : {
+            "query" : "上海共同体",
+             "slop" : 20
+        }
+    }
+  }
+}
+POST _search
+{
+  "query": {
+    "multi_match": {
+        "query" : "上海日本",
+        "fields" : ["title", "content"]
+    }
+  }
+}
+POST _search
+{
+  "query": {
+    "multi_match": {
+      "query": "上海共同体",
+      "type": "best_fields",
+      "fields": [
+        "title"
+      ],
+      "tie_breaker": 0.9
+    }
+  }
+}
+POST _search
+{"query":{"match":{"content":"日本有什么了"}}}
+GET _analyze
+{
+"text":"大数据"
+, "analyzer": "ik_smart"
+}
+GET   es-study/_search
+DELETE es-study
