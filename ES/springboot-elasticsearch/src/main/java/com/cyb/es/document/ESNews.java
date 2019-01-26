@@ -9,14 +9,19 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
-@Document(indexName = ESNews.INDEX, type = ESNews.ORDER_TYPE, indexStoreType = "fs", shards = 5, replicas = 1, refreshInterval = "-1")
+//@Mapping(mappingPath = "articlesearch_mapping.json")
+@Document(
+	indexName = ESNews.INDEX, 
+	type = ESNews.ORDER_TYPE, 
+	indexStoreType = "fs", 
+	shards = 5, 
+	replicas = 1, 
+	refreshInterval = "-1")
 public class ESNews {
-	public static final String INDEX = "es-study";
+	public static final String INDEX = "news-index";
 	public static final String ORDER_TYPE = "news-type";
 	public static final String DETAIL_TYPE = "news-content-document";
 
@@ -24,15 +29,15 @@ public class ESNews {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Field(type = FieldType.String, analyzer = "ik_max_word"
+	@Field(type = FieldType.Text, analyzer = "ik_max_word",searchAnalyzer = "ik_max_word"
 			/*index = FieldIndex.not_analyzed, 
-			searchAnalyzer = "ik_smart"*/)
+			searchAnalyzer = "ik_smart"ik_max_word*/)
 	private String title;
 	
 	//analysis-ik
-	@Field(type = FieldType.String, 
-			searchAnalyzer = "ik_smart",
-			analyzer = "ik_smart")
+	@Field(type = FieldType.Text, 
+			searchAnalyzer = "ik_max_word",
+			analyzer = "ik_max_word")
 	private String content;
 
 	/*
