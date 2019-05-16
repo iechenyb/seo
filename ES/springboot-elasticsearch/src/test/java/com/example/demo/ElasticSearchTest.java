@@ -1,81 +1,56 @@
 package com.example.demo;
 
-import java.util.Date;
-import java.util.Iterator;
+import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.SearchResultMapper;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
+import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ElasticSearchApplication;
-import com.cyb.es.dao.ArticleSearchRepository;
-import com.cyb.es.dao.NewsSearchRepository;
 import com.cyb.es.dao.NewsSearchRepositoryES;
-import com.cyb.es.document.Article;
-import com.cyb.es.document.Author;
-import com.cyb.es.document.Tutorial;
+import com.cyb.es.dao.NewsSearchRepositoryMysql;
+import com.cyb.es.document.ESNews;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ElasticSearchApplication.class)
 public class ElasticSearchTest {
 
 	@Autowired
-	private ArticleSearchRepository articleSearchRepository;
-
-	@Test
-	public void testSaveArticleIndex() {
-		//作者
-		Author author = new Author();
-		author.setId(1L);
-		author.setName("tianshouzhi");
-		author.setRemark("java developer");
-		//导师
-		Tutorial tutorial = new Tutorial();
-		tutorial.setId(1L);
-		tutorial.setName("elastic search");
-		//论文
-		Article article = new Article();
-		article.setId(1L);
-		article.setTitle("springboot integreate elasticsearch");
-		article.setAbstracts("springboot integreate elasticsearch is very easy");
-		article.setTutorial(tutorial);
-		article.setAuthor(author);
-		article.setContent("elasticsearch based on lucene," + "spring-data-elastichsearch based on elaticsearch"
-				+ ",this tutorial tell you how to integrete springboot with spring-data-elasticsearch");
-		article.setPostTime(new Date());
-		article.setClickCount(1L);
-		articleSearchRepository.save(article);
-	}
-
-	@Test
-	public void testSearch() {
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
-		String queryString = "springboot";// 搜索关键字
-		QueryStringQueryBuilder builder = new QueryStringQueryBuilder(queryString);
-		Iterable<Article> searchResult = articleSearchRepository.search(builder);
-		Iterator<Article> iterator = searchResult.iterator();
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
-	}
-
-	@Autowired
-	NewsSearchRepository re;
+	NewsSearchRepositoryMysql re;
 
 	@Autowired
 	NewsSearchRepositoryES nsr;
-   
+
+	String word = "浣溪沙";// 搜索关键字
+	@Autowired
+	ElasticsearchTemplate esTemplate;
+
 	/**
 	 * 根据索引查询内容
 	 */
 	@Test
-	public void testSearchNews() {
+	public void testStringSearchNews() {
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
-		String queryString = "2";// 搜索关键字
-		QueryStringQueryBuilder builder = new QueryStringQueryBuilder(queryString);
+		QueryStringQueryBuilder builder = new QueryStringQueryBuilder(word);
 		Iterable<com.cyb.es.document.ESNews> searchResult = nsr.search(builder);
 		Iterator<com.cyb.es.document.ESNews> iterator = searchResult.iterator();
 		while (iterator.hasNext()) {
@@ -83,5 +58,70 @@ public class ElasticSearchTest {
 		}
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
 	}
+    @Test
+	public void highlightBuilder() {
+		System.out.println("--------------------------------2--------------------------------");
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(matchPhraseQuery("title", word))
+				.withQuery(matchPhraseQuery("content", word))
+				.withHighlightFields(new HighlightBuilder.Field("title"))
+				.build();
+		List<ESNews> news = esTemplate.queryForList(searchQuery, ESNews.class);
+		showNews(news);
+		System.out.println("------------------------------3----------------------------------");
+		showNews(test().getContent());
+	}
+    public AggregatedPage<ESNews> test(){
+    	 Pageable pageable = PageRequest.of(0, 10);
 
+         String preTag = "<font color='#dd4b39'>";//google的色值
+         String postTag = "</font>";
+
+         SearchQuery searchQuery = new NativeSearchQueryBuilder().
+                 withQuery(matchPhraseQuery("title", word)).
+                 withQuery(matchPhraseQuery("content", word)).
+                 withHighlightFields(
+                		 new HighlightBuilder.Field("title").preTags(preTag).postTags(postTag),
+                         new HighlightBuilder.Field("content").preTags(preTag).postTags(postTag)).build();
+        searchQuery.setPageable(pageable);
+         
+         // 不需要高亮直接return ideas 
+         // AggregatedPage<Idea> ideas = elasticsearchTemplate.queryForPage(searchQuery, Idea.class);
+         
+         // 高亮字段
+         AggregatedPage<ESNews> ideas = esTemplate.queryForPage(searchQuery, ESNews.class, new SearchResultMapper() {
+
+             @SuppressWarnings("unchecked")
+			@Override
+             public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
+                 List<ESNews> chunk = new ArrayList<>();
+                 for (SearchHit searchHit : response.getHits()) {
+                     if (response.getHits().getHits().length <= 0) {
+                    	 System.out.println("没有查询到数据！");
+                         return null;
+                     }
+                     ESNews idea = new ESNews();
+                     //name or memoe
+                     HighlightField ideaTitle = searchHit.getHighlightFields().get("title");
+                     if (ideaTitle != null) {
+                         idea.setTitle(ideaTitle.fragments()[0].toString());
+                     }
+                     HighlightField ideaContent = searchHit.getHighlightFields().get("content");
+                     if (ideaContent != null) {
+                         idea.setContent(ideaContent.fragments()[0].toString());
+                     }
+
+                     chunk.add(idea);
+                 }
+                 return new AggregatedPageImpl<>((List<T>) chunk);
+             }
+         });
+         return ideas;
+    }
+    
+	private void showNews(List<ESNews> news) {
+		for (ESNews n : news) {
+			System.out.println(n.getTitle()+"-------->" + n.getContent());
+		}
+	}
 }

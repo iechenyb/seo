@@ -17,7 +17,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.ElasticSearchApplication;
 import com.cyb.es.bean.DBNews;
-import com.cyb.es.dao.NewsSearchRepository;
+import com.cyb.es.dao.NewsSearchRepositoryMysql;
 import com.cyb.es.dao.NewsSearchRepositoryES;
 import com.cyb.es.document.ESNews;
 
@@ -25,7 +25,7 @@ import com.cyb.es.document.ESNews;
 @SpringBootTest(classes = ElasticSearchApplication.class)
 public class InitDataTest {
 	@Autowired
-	NewsSearchRepository re;
+	NewsSearchRepositoryMysql re;
 
 	@Autowired
 	NewsSearchRepositoryES nsr;
