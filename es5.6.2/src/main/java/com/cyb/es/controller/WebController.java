@@ -71,7 +71,6 @@ public class WebController {
 				web.setUrl(eles.get(i).absUrl("href"));
 				web.setTitle(eles.get(i).text()==""?eles.get(i).attr("title"):eles.get(i).text());
 				web.setMeta(keyWords(web.getUrl()));
-				System.out.println(web);
 				if(!urlMap.containsKey(web.getUrl())){
 					es.save(web);
 					urlMap.put(web.getUrl(), "");
