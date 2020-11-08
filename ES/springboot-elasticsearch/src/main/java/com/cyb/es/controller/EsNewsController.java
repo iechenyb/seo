@@ -52,8 +52,8 @@ import com.cyb.es.bean.NewsData;
 import com.cyb.es.dao.NewsSearchRepositoryES;
 import com.cyb.es.dao.NewsSearchRepositoryMysql;
 import com.cyb.es.document.ESNews;
+import com.wordnik.swagger.annotations.ApiOperation;
 
-import io.swagger.annotations.ApiOperation;
 
 /**
  * http://localhost:9200/_cluster/health/?level=shards http://localhost:9200/

@@ -82,11 +82,11 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.elasticsearch</groupId>
 		    <artifactId>elasticsearch-analysis-ik</artifactId>
 		    <version>1.10.6</version>
-	    </dependency>
+	    </dependency> -->
 	</dependencies>
 
 	<build>

@@ -1,0 +1,9 @@
+2019-01-26 19:17:05.765 [main] INFO  org.junit.Test - info
+2019-01-26 19:17:05.768 [main] ERROR org.junit.Test - error
+2019-01-26 19:17:05.768 [main] WARN  org.junit.Test - warn
+2019-01-26 19:20:46.791 [main] INFO  org.junit.Test - info
+2019-01-26 19:20:46.794 [main] ERROR org.junit.Test - error
+2019-01-26 19:20:46.794 [main] WARN  org.junit.Test - warn
+2019-01-26 19:21:50.350 [main] INFO  org.junit.Test - info
+2019-01-26 19:21:50.354 [main] ERROR org.junit.Test - error
+2019-01-26 19:21:50.354 [main] WARN  org.junit.Test - warn

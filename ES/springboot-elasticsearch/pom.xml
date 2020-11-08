@@ -36,6 +36,31 @@
 		    <artifactId>ik-analysis-core</artifactId>
 		    <version>1.0.0</version>
 		</dependency> -->
+	<!-- 	
+		<dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-core</artifactId>
+        </dependency>
+          <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+        </dependency> -->
+		<!--     logback扩展包，监听,用于解决与spring的结合 
+        <dependency>
+          <groupId>org.logback-extensions</groupId>
+          <artifactId>logback-ext-spring</artifactId>
+          <version>0.1.4</version>
+        </dependency>-->
+        <dependency>
+		    <groupId>net.logstash.logback</groupId>
+		    <artifactId>logstash-logback-encoder</artifactId>
+		    <version>4.9</version>
+		</dependency> 
+		<dependency>
+		    <groupId>com.cyb</groupId>
+		    <artifactId>mvc40</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -76,7 +101,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.3</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${springfox.version}</version>
@@ -85,7 +110,7 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${springfox.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- <dependency>
 			<groupId>org.elasticsearch</groupId>
 		    <artifactId>elasticsearch-analysis-ik</artifactId>

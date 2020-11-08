@@ -1,0 +1,65 @@
+2019-01-26 18:27:05.466  INFO 10448 --- [main] com.example.demo.ElasticSearchTest       : Starting ElasticSearchTest on CARIJZ7IKK0GGWL with PID 10448 (started by Administrator in E:\project\seo\ES\springboot-elasticsearch)
+2019-01-26 18:27:05.467  INFO 10448 --- [main] com.example.demo.ElasticSearchTest       : No active profile set, falling back to default profiles: default
+2019-01-26 18:27:05.491  INFO 10448 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@79207381: startup date [Sat Jan 26 18:27:05 CST 2019]; root of context hierarchy
+2019-01-26 18:27:07.304  INFO 10448 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-01-26 18:27:07.543  INFO 10448 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data Elasticsearch - Could not safely identify store assignment for repository candidate interface com.cyb.es.dao.NewsSearchRepositoryMysql.
+2019-01-26 18:27:07.584  INFO 10448 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-01-26 18:27:07.669  INFO 10448 --- [main] .RepositoryConfigurationExtensionSupport : Spring Data JPA - Could not safely identify store assignment for repository candidate interface com.cyb.es.dao.NewsSearchRepositoryES.
+2019-01-26 18:27:08.014  INFO 10448 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7b21fe99] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-01-26 18:27:08.282  INFO 10448 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2019-01-26 18:27:08.299  INFO 10448 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2019-01-26 18:27:08.374  INFO 10448 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.2.17.Final}
+2019-01-26 18:27:08.376  INFO 10448 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2019-01-26 18:27:08.476  INFO 10448 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2019-01-26 18:27:08.583  INFO 10448 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-01-26 18:27:08.756  INFO 10448 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2019-01-26 18:27:08.769  INFO 10448 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2019-01-26 18:27:09.283  INFO 10448 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2019-01-26 18:27:09.546  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : no modules loaded
+2019-01-26 18:27:09.548  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : loaded plugin [org.elasticsearch.index.reindex.ReindexPlugin]
+2019-01-26 18:27:09.549  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : loaded plugin [org.elasticsearch.join.ParentJoinPlugin]
+2019-01-26 18:27:09.549  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : loaded plugin [org.elasticsearch.percolator.PercolatorPlugin]
+2019-01-26 18:27:09.549  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : loaded plugin [org.elasticsearch.script.mustache.MustachePlugin]
+2019-01-26 18:27:09.549  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : loaded plugin [org.elasticsearch.transport.Netty3Plugin]
+2019-01-26 18:27:09.549  INFO 10448 --- [main] o.elasticsearch.plugins.PluginsService   : loaded plugin [org.elasticsearch.transport.Netty4Plugin]
+2019-01-26 18:27:10.577  INFO 10448 --- [main] o.s.d.e.c.TransportClientFactoryBean     : Adding transport node : 127.0.0.1:9300
+2019-01-26 18:27:11.281  INFO 10448 --- [main] o.h.h.i.QueryTranslatorFactoryInitiator  : HHH000397: Using ASTQueryTranslatorFactory
+2019-01-26 18:27:15.201  WARN 10448 --- [main] aWebConfiguration$JpaWebMvcConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2019-01-26 18:27:15.399  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/update],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.String> com.cyb.es.controller.EsNewsController.update(java.lang.Long,java.lang.String)
+2019-01-26 18:27:15.400  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/initNews],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.init() throws java.io.FileNotFoundException,java.io.IOException
+2019-01-26 18:27:15.400  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/highLight],methods=[GET]}" onto public org.springframework.data.elasticsearch.core.aggregation.AggregatedPage<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.test(java.lang.String)
+2019-01-26 18:27:15.400  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/deleteall],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.deleteAll()
+2019-01-26 18:27:15.401  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/queryById],methods=[POST]}" onto public com.cyb.es.document.ESNews com.cyb.es.controller.EsNewsController.queryById(long)
+2019-01-26 18:27:15.401  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/queryall],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.queryAllNews()
+2019-01-26 18:27:15.402  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/query],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.queryNews(java.lang.String)
+2019-01-26 18:27:15.402  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/delIndexByClass],methods=[GET]}" onto public boolean com.cyb.es.controller.EsNewsController.delIndexByClass()
+2019-01-26 18:27:15.402  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/hasIndexByClass],methods=[GET]}" onto public boolean com.cyb.es.controller.EsNewsController.hasIndexByClass()
+2019-01-26 18:27:15.402  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/addIndexByClass],methods=[GET]}" onto public boolean com.cyb.es.controller.EsNewsController.addIndexByClass()
+2019-01-26 18:27:15.402  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/wildcardQuery],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.wildcardQuery(java.lang.String)
+2019-01-26 18:27:15.403  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/functionScoreQuery],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.searchEntity(int,int,java.lang.String)
+2019-01-26 18:27:15.403  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/addNews],methods=[POST]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.addNews(com.cyb.es.document.ESNews)
+2019-01-26 18:27:15.403  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/news/wrapperQuery],methods=[GET]}" onto public java.util.List<com.cyb.es.document.ESNews> com.cyb.es.controller.EsNewsController.queryNews3(java.lang.String)
+2019-01-26 18:27:15.404  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-01-26 18:27:15.406  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-01-26 18:27:15.407  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-01-26 18:27:15.407  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-01-26 18:27:15.410  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-01-26 18:27:15.411  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-01-26 18:27:15.511  INFO 10448 --- [main] com.cyb.es.config.swagger.SwaggerConfig  : create api!
+2019-01-26 18:27:15.521  INFO 10448 --- [main] com.cyb.es.config.swagger.SwaggerConfig  : api Info!
+2019-01-26 18:27:15.757  INFO 10448 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-01-26 18:27:15.950  INFO 10448 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@79207381: startup date [Sat Jan 26 18:27:05 CST 2019]; root of context hierarchy
+2019-01-26 18:27:16.001  INFO 10448 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-01-26 18:27:16.002  INFO 10448 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-01-26 18:27:16.256  INFO 10448 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2019-01-26 18:27:16.257  INFO 10448 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2019-01-26 18:27:16.282  INFO 10448 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2019-01-26 18:27:16.300  INFO 10448 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2019-01-26 18:27:16.512  INFO 10448 --- [main] com.example.demo.ElasticSearchTest       : Started ElasticSearchTest in 11.267 seconds (JVM running for 11.89)
+2019-01-26 18:27:16.653  INFO 10448 --- [Thread-2] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@79207381: startup date [Sat Jan 26 18:27:05 CST 2019]; root of context hierarchy
+2019-01-26 18:27:16.655  INFO 10448 --- [Thread-2] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147483647
+2019-01-26 18:27:17.665  INFO 10448 --- [Thread-2] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2019-01-26 18:27:17.666  INFO 10448 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2019-01-26 18:27:17.670  INFO 10448 --- [Thread-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

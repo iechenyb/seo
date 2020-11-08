@@ -1,0 +1,126 @@
+GET /news-index/_analyze?pretty
+{
+  "analyzer": "ik_max_word",
+  "text": "中华人民共和国国歌"
+}
+GET /news-index/_analyze?pretty
+{
+  "analyzer": "ik_smart",
+  "text": "中华人民共和国国歌"
+}
+GET /news-index/_analyze?pretty
+{
+  "analyzer": "not_analyzed",
+  "text": "中华人民共和国国歌"
+}
+GET /news-index/_analyze?pretty
+{
+  "analyzer": "standard",
+  "text": "中华人民共和国国歌"
+}
+
+GET /news-index/news-type/_search
+{
+  "query": {
+    "multi_match": {
+      "type":     "most_fields", 
+      "query":    "中华人民共和国",
+      "fields": ["title","content"]
+    }
+  }
+}
+GET /news-index/news-type/_search
+{
+   "query":{
+       "match":{
+          "title":"菩萨蛮"
+       }
+    },
+   "highlight": {
+       "fields": {
+           "title":{
+              "pre_tags":["<mark>"],
+              "post_tags":["</mark>"]
+           }
+        }
+    }
+}
+GET /news-index/news-type/_search
+{
+   "query":{
+       "match":{
+          "content":"春天"
+       }
+    },
+   "highlight": {
+       "fields": {
+           "content":{ 
+              "pre_tags":["<mark>"],
+              "post_tags":["</mark>"]}
+        }
+    }
+}
+GET /news-index/news-type/_search
+{
+  "query": {
+    "match_all":{
+      "boost":0.0
+    }
+  }
+}
+GET /news-index/news-type/_search
+{
+  "query" : {
+    "bool" : {
+      "must" : [
+        {
+          "range" : {
+            "time" : {
+              "from" : "20190126161709",
+              "to" : "20190126161809",
+              "include_lower" : true,
+              "include_upper" : true,
+              "boost" : 1.0
+            }
+          }
+        }
+      ],
+      "disable_coord" : false,
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "aggs": {
+      "hour": {
+          "terms": {
+              "size": 24, 
+              "script": {
+                "lang": "painless",
+                "source": "doc['time'].date.hourOfDay"
+              },
+              "order" : { "_term" : "asc" }
+          }
+      }
+  },
+  "size": 0
+}
+GET /logstash-systemlog-2019.01.26/systemlog/_search
+{
+  "query": {
+    "multi_match": {
+      "type":     "most_fields", 
+      "query":    "光寒食",
+      "fields": ["message"]
+    }
+  }
+}
+GET /logstash-systemlog-2019.01.26/logs/_search
+{
+  "query": {
+    "multi_match": {
+      "type":     "most_fields", 
+      "query":    "莫许杯深琥珀浓",
+      "fields": ["message"]
+    }
+  }
+}

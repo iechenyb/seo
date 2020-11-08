@@ -17,6 +17,7 @@ import com.cyb.es.dao.NewsSearchRepositoryES;
 import com.cyb.es.document.Article;
 import com.cyb.es.document.Author;
 import com.cyb.es.document.Tutorial;
+import com.cyb.es.document.WebDocument;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ElasticSearchApplication.class)
@@ -47,7 +48,7 @@ public class ElasticSearchTest {
 				+ ",this tutorial tell you how to integrete springboot with spring-data-elasticsearch");
 		article.setPostTime(new Date());
 		article.setClickCount(1L);
-		articleSearchRepository.save(article);
+		//articleSearchRepository.save(article);
 	}
 
 	@Test
@@ -55,8 +56,8 @@ public class ElasticSearchTest {
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
 		String queryString = "springboot";// 搜索关键字
 		QueryStringQueryBuilder builder = new QueryStringQueryBuilder(queryString);
-		Iterable<Article> searchResult = articleSearchRepository.search(builder);
-		Iterator<Article> iterator = searchResult.iterator();
+		Iterable<WebDocument> searchResult = articleSearchRepository.search(builder);
+		Iterator<WebDocument> iterator = searchResult.iterator();
 		while (iterator.hasNext()) {
 			System.out.println(iterator.next());
 		}

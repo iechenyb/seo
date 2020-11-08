@@ -13,6 +13,8 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +35,7 @@ import com.cyb.es.document.ESNews;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = ElasticSearchApplication.class)
 public class ElasticSearchTest {
-
+	 Logger log = LoggerFactory.getLogger(ElasticSearchTest.class);
 	@Autowired
 	NewsSearchRepositoryMysql re;
 
@@ -49,18 +51,21 @@ public class ElasticSearchTest {
 	 */
 	@Test
 	public void testStringSearchNews() {
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
+		log.info("xxxxxxxxxxxxxxxxxxxxxxx");
 		QueryStringQueryBuilder builder = new QueryStringQueryBuilder(word);
 		Iterable<com.cyb.es.document.ESNews> searchResult = nsr.search(builder);
 		Iterator<com.cyb.es.document.ESNews> iterator = searchResult.iterator();
 		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
+			log.info(iterator.next().getContent());
 		}
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxx");
+		log.info("xxxxxxxxxxxxxxxxxxxxxxx");
+		while(true){
+			
+		}
 	}
     @Test
 	public void highlightBuilder() {
-		System.out.println("--------------------------------2--------------------------------");
+		log.info("--------------------------------2--------------------------------");
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(matchPhraseQuery("title", word))
 				.withQuery(matchPhraseQuery("content", word))
@@ -68,8 +73,11 @@ public class ElasticSearchTest {
 				.build();
 		List<ESNews> news = esTemplate.queryForList(searchQuery, ESNews.class);
 		showNews(news);
-		System.out.println("------------------------------3----------------------------------");
+		log.info("------------------------------3----------------------------------");
 		showNews(test().getContent());
+		while(true){
+			
+		}
 	}
     public AggregatedPage<ESNews> test(){
     	 Pageable pageable = PageRequest.of(0, 10);
@@ -97,7 +105,7 @@ public class ElasticSearchTest {
                  List<ESNews> chunk = new ArrayList<>();
                  for (SearchHit searchHit : response.getHits()) {
                      if (response.getHits().getHits().length <= 0) {
-                    	 System.out.println("没有查询到数据！");
+                    	 log.info("没有查询到数据！");
                          return null;
                      }
                      ESNews idea = new ESNews();
@@ -121,7 +129,7 @@ public class ElasticSearchTest {
     
 	private void showNews(List<ESNews> news) {
 		for (ESNews n : news) {
-			System.out.println(n.getTitle()+"-------->" + n.getContent());
+			log.info(n.getTitle()+"-------->" + n.getContent());
 		}
 	}
 }
